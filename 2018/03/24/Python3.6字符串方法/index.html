@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="深水丶虫">
 <meta property="og:description" content="Python3.6字符串方法   序号 方法名 解释 运行 结果     1 capitalize() 将字符串的第一个字符转换为大写 ‘abc’.capitalize() ‘Abc’   2 casefold() 将字符变成小写，但是可以处理非ASCII码，如将ß变成ss,这个是lower()做不到的 ‘abcdßef’.casefold() ‘abcdssef’   3 center(widt">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-25T08:40:48.935Z">
+<meta property="og:updated_time" content="2018-03-25T08:50:25.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python3.6字符串方法">
 <meta name="twitter:description" content="Python3.6字符串方法   序号 方法名 解释 运行 结果     1 capitalize() 将字符串的第一个字符转换为大写 ‘abc’.capitalize() ‘Abc’   2 casefold() 将字符变成小写，但是可以处理非ASCII码，如将ß变成ss,这个是lower()做不到的 ‘abcdßef’.casefold() ‘abcdssef’   3 center(widt">
@@ -257,15 +257,15 @@
 <td style="text-align:center">5</td>
 <td style="text-align:center"><code>encode</code>(<em>encoding=”utf-8”</em>, <em>errors=”strict”</em>)</td>
 <td style="text-align:center">以encoding 指定的编码格式编码字符串，如果出错默认报一个ValueError 的异常，除非 errors  指定的是’ignore’或者’replace’</td>
-<td style="text-align:center">‘abc潭州abc’.encode(encoding=’utf-8’,errors=’igonre’)</td>
+<td style="text-align:center">‘abc深水abc’.encode(encoding=’utf-8’,errors=’igonre’)</td>
 <td style="text-align:center">b’abc\xe6\xbd\xad\xe5\xb7\x9eabc’</td>
 </tr>
 <tr>
 <td style="text-align:center">6</td>
 <td style="text-align:center"><code>bytes.decode</code>(<em>encoding=”utf-8”</em>, <em>errors=”strict”</em>)</td>
 <td style="text-align:center">Python3 中没有 decode 方法，但我们可以使用 bytes 对象的 decode() 方法来解码给定的  bytes 对象，这个 bytes 对象可以由 str.encode() 来编码返回。</td>
-<td style="text-align:center">st = ‘abc潭州abc’.encode(encoding=’utf-8’,errors=’igonre’) st.decode(encoding=’utf-8’)</td>
-<td style="text-align:center">‘abc潭州abc’</td>
+<td style="text-align:center">st = ‘abc深水abc’.encode(encoding=’utf-8’,errors=’igonre’) st.decode(encoding=’utf-8’)</td>
+<td style="text-align:center">‘abc深水abc’</td>
 </tr>
 <tr>
 <td style="text-align:center">7</td>
@@ -292,15 +292,15 @@
 <td style="text-align:center">10</td>
 <td style="text-align:center"><code>format</code>(*args,**kwargs)</td>
 <td style="text-align:center">字符串格式化，使用时字符串中需要包含<code>{}</code></td>
-<td style="text-align:center">‘潭州 {}’.format(‘Python’)</td>
-<td style="text-align:center">‘潭州 Python’</td>
+<td style="text-align:center">‘深水 {}’.format(‘Python’)</td>
+<td style="text-align:center">‘深水 Python’</td>
 </tr>
 <tr>
 <td style="text-align:center">11</td>
 <td style="text-align:center"><code>format_map</code>(<em>mapping</em>)</td>
 <td style="text-align:center">类似 str.format(*args, **kwargs) ，不同的是 mapping 是一个字典对象</td>
-<td style="text-align:center">‘My name is {name},i am {age} old’.format_map({‘name’:’TzPy’, ‘age’:18})</td>
-<td style="text-align:center">‘My name is TzPy,i am 18 old’</td>
+<td style="text-align:center">‘My name is {name},i am {age} old’.format_map({‘name’:’SsPy’, ‘age’:18})</td>
+<td style="text-align:center">‘My name is SsPy,i am 18 old’</td>
 </tr>
 <tr>
 <td style="text-align:center">12</td>
@@ -362,7 +362,7 @@
 <td style="text-align:center">20</td>
 <td style="text-align:center"><code>isprintable</code>()</td>
 <td style="text-align:center">判断字符串的所有字符都是可打印字符或字符串为空</td>
-<td style="text-align:center">‘tanzhou 123’.isprintable()</td>
+<td style="text-align:center">‘shenshu123’.isprintable()</td>
 <td style="text-align:center">True</td>
 </tr>
 <tr>
@@ -376,14 +376,14 @@
 <td style="text-align:center">22</td>
 <td style="text-align:center"><code>istitle</code>()</td>
 <td style="text-align:center">如果字符串是标题化的(见  title())则返回 True，否则返回 False</td>
-<td style="text-align:center">‘Tan Zhou’.istitle()</td>
+<td style="text-align:center">‘Shen Shui’.istitle()</td>
 <td style="text-align:center">True</td>
 </tr>
 <tr>
 <td style="text-align:center">23</td>
 <td style="text-align:center"><code>isupper</code>()</td>
 <td style="text-align:center">如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</td>
-<td style="text-align:center">‘Tanzhou’.isupper()</td>
+<td style="text-align:center">‘Shenshui’.isupper()</td>
 <td style="text-align:center">False</td>
 </tr>
 <tr>
@@ -397,8 +397,8 @@
 <td style="text-align:center">25</td>
 <td style="text-align:center"><code>ljust</code>(<em>width</em>[, <em>fillchar</em>])</td>
 <td style="text-align:center">返回一个原字符串左对齐,并使用 fillchar 填充至长度 width 的新字符串，fillchar 默认为空格</td>
-<td style="text-align:center">‘tanzhou’.ljust(9, ‘^’)</td>
-<td style="text-align:center">‘tanzhou^^’</td>
+<td style="text-align:center">‘shenshui’.ljust(9, ‘^’)</td>
+<td style="text-align:center">‘shenshui^’</td>
 </tr>
 <tr>
 <td style="text-align:center">26</td>
@@ -411,8 +411,8 @@
 <td style="text-align:center">27</td>
 <td style="text-align:center"><code>lstrip</code>([<em>chars</em>])</td>
 <td style="text-align:center">截掉字符串左边的空格</td>
-<td style="text-align:center">‘  tanzhou’.lstrip()</td>
-<td style="text-align:center">‘tanzhou’</td>
+<td style="text-align:center">‘  shenshui’.lstrip()</td>
+<td style="text-align:center">‘shenshui’</td>
 </tr>
 <tr>
 <td style="text-align:center">28</td>
@@ -430,7 +430,7 @@
 </tr>
 <tr>
 <td style="text-align:center">30</td>
-<td style="text-align:center"><code>replace</code>(<em>old</em>, <em>new</em>[, <em>max</em>])</td>
+<td style="text-align:center"><code>replace</code>(<em>old</em>, <em>new</em>[, <em>count</em>])</td>
 <td style="text-align:center">把将字符串中的 str1  替换成 str2,如果 max 指定，则替换不超过 max 次</td>
 <td style="text-align:center">‘dog wow wow jiao’.replace(‘wow’, ‘wang’, 2)</td>
 <td style="text-align:center">‘dog wang wang jiao’</td>
@@ -460,8 +460,8 @@
 <td style="text-align:center">34</td>
 <td style="text-align:center"><code>rpartition</code>(<em>sep</em>)</td>
 <td style="text-align:center">从后往前查找，返回包含字符串中分隔符之前、分隔符、分隔符之后的子字符串的tuple；如果没找到分隔符，返回字符串和两个空字符串</td>
-<td style="text-align:center">“TanZhou PythonVip”.rpartition(‘o’)</td>
-<td style="text-align:center">(‘TanZhou Pyth’, ‘o’, ‘nVip’)</td>
+<td style="text-align:center">“shenshuPythonVip”.rpartition(‘o’)</td>
+<td style="text-align:center">(‘shenshuPyth’, ‘o’, ‘nVip’)</td>
 </tr>
 <tr>
 <td style="text-align:center">35</td>
@@ -474,8 +474,8 @@
 <td style="text-align:center">36</td>
 <td style="text-align:center"><code>rstrip</code>([<em>chars</em>])</td>
 <td style="text-align:center">删除字符串字符串末尾的空格</td>
-<td style="text-align:center">“this is tanzhou    “ .rstrip()                 “this is tanzhou111”.rstrip(“1”)</td>
-<td style="text-align:center">“this is tanzhou”                         “this is tanzhou”</td>
+<td style="text-align:center">“this is shenshu   “ .rstrip()                 “this is shenshu111”.rstrip(“1”)</td>
+<td style="text-align:center">“this is shenshu”                         “this is shenshu”</td>
 </tr>
 <tr>
 <td style="text-align:center">37</td>
@@ -485,7 +485,7 @@
 <td style="text-align:center">[ ‘1’, ‘34’ , ‘3664’, ‘34’]</td>
 </tr>
 <tr>
-<td style="text-align:center">38</td>
+<td style="text-align:center"></td>
 <td style="text-align:center"><code>splitlines</code>([<em>keepends</em>])</td>
 <td style="text-align:center">按照行(‘\r’,  ‘\r\n’, \n’)分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</td>
 <td style="text-align:center">‘ab c\n\nde fg\rkl\r\n’.splitlines();</td>
@@ -499,7 +499,7 @@
 <td style="text-align:center">True</td>
 </tr>
 <tr>
-<td style="text-align:center">40</td>
+<td style="text-align:center"></td>
 <td style="text-align:center"><code>strip</code>([<em>chars</em>])</td>
 <td style="text-align:center">在字符串上执行  lstrip()和 rstrip()</td>
 <td style="text-align:center">‘  abc  ‘.strip()</td>
@@ -509,15 +509,15 @@
 <td style="text-align:center">41</td>
 <td style="text-align:center"><code>swapcase</code>()</td>
 <td style="text-align:center">将字符串中大写转换为小写，小写转换为大写</td>
-<td style="text-align:center">“this is TANZHOU”.swapcase()</td>
-<td style="text-align:center">THIS IS tanzhou</td>
+<td style="text-align:center">“this is SHENSHUI”.swapcase()</td>
+<td style="text-align:center">THIS IS shenshui</td>
 </tr>
 <tr>
 <td style="text-align:center">42</td>
 <td style="text-align:center"><code>title</code>()</td>
 <td style="text-align:center">返回”标题化”的字符串,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</td>
-<td style="text-align:center">‘this is tanzhou’.title()</td>
-<td style="text-align:center">‘This Is Tanzhou’</td>
+<td style="text-align:center">‘this is shenshui’.title()</td>
+<td style="text-align:center">‘This Is Shenshui’</td>
 </tr>
 <tr>
 <td style="text-align:center">43</td>
@@ -537,8 +537,8 @@
 <td style="text-align:center">45</td>
 <td style="text-align:center"><code>zfill</code>(<em>width</em>)</td>
 <td style="text-align:center">返回长度为 width 的字符串，原字符串右对齐，前面填充0</td>
-<td style="text-align:center">‘Tzpython’.zfill(10)</td>
-<td style="text-align:center">‘00Tzpython’</td>
+<td style="text-align:center">‘Sspython’.zfill(10)</td>
+<td style="text-align:center">‘00Sspython’</td>
 </tr>
 </tbody>
 </table>
