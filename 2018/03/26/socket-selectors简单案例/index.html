@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>socket,selectors简单案例 | 深水丶虫</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="python," />
+  
+
+  <meta name="description" content="阻塞服务端12345678910111213141516import socket  # 导入socket模块sk = socket.socket()  # 创建socket对象sk.bind((&quot;127.0.0.1&quot;, 8888))  # 绑定端口,“127.0.0.1”代表本机地址，8888为设置链接的端口地址sk.listen(5)  # 设置监听，最多可有5个客户端进行排队conn, ad">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket,selectors简单案例">
+<meta property="og:url" content="/2018/03/26/socket-selectors简单案例/index.html">
+<meta property="og:site_name" content="深水丶虫">
+<meta property="og:description" content="阻塞服务端12345678910111213141516import socket  # 导入socket模块sk = socket.socket()  # 创建socket对象sk.bind((&quot;127.0.0.1&quot;, 8888))  # 绑定端口,“127.0.0.1”代表本机地址，8888为设置链接的端口地址sk.listen(5)  # 设置监听，最多可有5个客户端进行排队conn, ad">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-26T10:48:46.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket,selectors简单案例">
+<meta name="twitter:description" content="阻塞服务端12345678910111213141516import socket  # 导入socket模块sk = socket.socket()  # 创建socket对象sk.bind((&quot;127.0.0.1&quot;, 8888))  # 绑定端口,“127.0.0.1”代表本机地址，8888为设置链接的端口地址sk.listen(5)  # 设置监听，最多可有5个客户端进行排队conn, ad">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/35004442?s=400&u=0b582a8d05a7e95ab2169bce1f784c18a2bf0900&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#阻塞"><span class="toc-text">阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端"><span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-text">客户端</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#非阻塞"><span class="toc-text">非阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器"><span class="toc-text">服务器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#selectors模块服务器"><span class="toc-text">selectors模块服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Socket-对象-内建-方法"><span class="toc-text">Socket 对象(内建)方法</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-socket-selectors简单案例" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">socket,selectors简单案例</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.03.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>深水丶虫</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/python3笔记/">python3笔记</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="SSDCc.github.io/2018/03/26/socket-selectors简单案例/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞"></a>阻塞</h1><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket  <span class="comment"># 导入socket模块</span></span><br><span class="line"></span><br><span class="line">sk = socket.socket()  <span class="comment"># 创建socket对象</span></span><br><span class="line">sk.bind((<span class="string">"127.0.0.1"</span>, <span class="number">8888</span>))  <span class="comment"># 绑定端口,“127.0.0.1”代表本机地址，8888为设置链接的端口地址</span></span><br><span class="line">sk.listen(<span class="number">5</span>)  <span class="comment"># 设置监听，最多可有5个客户端进行排队</span></span><br><span class="line">conn, addr = sk.accept()  <span class="comment"># 阻塞状态，被动等待客户端的连接</span></span><br><span class="line">print(conn)  <span class="comment"># conn可以理解客户端的socket对象</span></span><br><span class="line"><span class="comment"># &lt;socket.socket fd=4, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 9005), raddr=('127.0.0.1', 36694)&gt;</span></span><br><span class="line">print(addr)  <span class="comment"># addr为客户端的端口地址</span></span><br><span class="line"><span class="comment"># ('127.0.0.1', 40966)</span></span><br><span class="line">accept_data = conn.recv(<span class="number">1024</span>)  <span class="comment"># conn.recv()接收客户端的内容，接收到的是bytes类型数据，</span></span><br><span class="line">accept_data2 = str(accept_data, encoding=<span class="string">"utf8"</span>)  <span class="comment"># str(data,encoding="utf8")用“utf8”进行解码</span></span><br><span class="line">print(<span class="string">""</span>.join((<span class="string">"接收内容："</span>, accept_data2, <span class="string">"    客户端口："</span>, str(addr[<span class="number">1</span>]))))</span><br><span class="line">send_data = input(<span class="string">"输入发送内容："</span>)</span><br><span class="line">conn.sendall(bytes(send_data, encoding=<span class="string">"utf8"</span>))  <span class="comment"># 发送内容必须为bytes类型数据，bytes(data, encoding="utf8")用“utf8”格式进行编码</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">sk = socket.socket()</span><br><span class="line">sk.connect((<span class="string">"127.0.0.1"</span>, <span class="number">8888</span>))  <span class="comment"># 主动初始化与服务器端的连接</span></span><br><span class="line">send_data = input(<span class="string">"输入发送内容："</span>)</span><br><span class="line">sk.sendall(bytes(send_data, encoding=<span class="string">"utf8"</span>))</span><br><span class="line">accept_data = sk.recv(<span class="number">1024</span>)</span><br><span class="line">print(str(accept_data, encoding=<span class="string">"utf8"</span>))</span><br><span class="line">sk.close()</span><br></pre></td></tr></table></figure>
+<h1 id="非阻塞"><a href="#非阻塞" class="headerlink" title="非阻塞"></a>非阻塞</h1><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">server = socket.socket()</span><br><span class="line">server.setblocking(<span class="keyword">False</span>)</span><br><span class="line">server.bind((<span class="string">''</span>, <span class="number">8880</span>))</span><br><span class="line">server.listen(<span class="number">1000</span>)</span><br><span class="line">connection_list = []</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        conn, r_address = server.accept()</span><br><span class="line">        conn.setblocking(<span class="keyword">False</span>)</span><br><span class="line">        print(<span class="string">'远程客户端&#123;&#125;'</span>.format(r_address))</span><br><span class="line">        connection_list.append(conn) <span class="comment"># 保存已经生成的套接字</span></span><br><span class="line">    <span class="keyword">except</span> BlockingIOError:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    tmp_list = connection_list</span><br><span class="line">    <span class="keyword">for</span> conn <span class="keyword">in</span> tmp_list:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">            <span class="keyword">if</span> data:</span><br><span class="line">                print(str(data, encoding=<span class="string">"utf8"</span>))</span><br><span class="line">                conn.send(data)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                conn.close()</span><br><span class="line">                connection_list.remove(conn)</span><br><span class="line">        <span class="keyword">except</span> BlockingIOError:</span><br><span class="line">            <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h1 id="selectors模块服务器"><a href="#selectors模块服务器" class="headerlink" title="selectors模块服务器"></a>selectors模块服务器</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> selectors</span><br><span class="line"></span><br><span class="line">sel = selectors.DefaultSelector()<span class="comment">#生成一个select对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">accept</span><span class="params">(sock,mask)</span>:</span></span><br><span class="line">    conn,addr = sock.accept()<span class="comment"># Should be ready</span></span><br><span class="line">    print(<span class="string">'客户：'</span>,addr)</span><br><span class="line">    conn.setblocking(<span class="keyword">False</span>) <span class="comment">#设定非阻塞</span></span><br><span class="line">    sel.register(conn,selectors.EVENT_READ,read)<span class="comment">#新连接注册read回调函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(conn,mask)</span>:</span></span><br><span class="line">    data = conn.recv(<span class="number">1024</span>)<span class="comment"># Should be ready</span></span><br><span class="line">    <span class="keyword">if</span> data:</span><br><span class="line">        print(conn,<span class="string">'&gt;&gt;&gt;'</span>,str(data, encoding=<span class="string">"utf8"</span>))</span><br><span class="line">        conn.send(data)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        sel.unregister(conn)</span><br><span class="line">        conn.close()</span><br><span class="line">        print(<span class="string">'Killed：'</span>,conn)</span><br><span class="line"></span><br><span class="line">sock = socket.socket()</span><br><span class="line">sock.bind((<span class="string">''</span>,<span class="number">6666</span>))</span><br><span class="line">sock.listen()</span><br><span class="line">sock.setblocking(<span class="keyword">False</span>)</span><br><span class="line">sel.register(sock,selectors.EVENT_READ,accept) <span class="comment">#把刚生成的sock连接对象注册到select连接列表中，并交给accept函数处理</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    events = sel.select()  <span class="comment"># 默认是阻塞，有活动连接就返回活动的连接列表</span></span><br><span class="line">    <span class="comment"># 这里看起来是select，其实有可能会使用epoll，如果你的系统支持epoll，那么默认就是epoll</span></span><br><span class="line">    print(<span class="string">'----------------------------------------------------------------------------------------------------'</span>)</span><br><span class="line">    print(<span class="string">'events&gt;&gt;&gt;'</span>,events)<span class="comment">#看看里面是啥</span></span><br><span class="line">    print(<span class="string">'----------------------------------------------------------------------------------------------------'</span>)</span><br><span class="line">    <span class="keyword">for</span> key, mask <span class="keyword">in</span> events:</span><br><span class="line">        print(<span class="string">'----------------------------------------------------------------------------------------------------'</span>)</span><br><span class="line">        print(<span class="string">'key&gt;&gt;&gt;'</span>,key)<span class="comment">#看看里面是啥</span></span><br><span class="line">        print(<span class="string">'----------------------------------------------------------------------------------------------------'</span>)</span><br><span class="line">        callback = key.data  <span class="comment"># 去调accept函数</span></span><br><span class="line">        callback(key.fileobj, mask)  <span class="comment"># key.fileobj就是readable中的一个socket连接对象</span></span><br></pre></td></tr></table></figure>
+<h1 id="Socket-对象-内建-方法"><a href="#Socket-对象-内建-方法" class="headerlink" title="Socket 对象(内建)方法"></a>Socket 对象(内建)方法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">服务器端</span><br><span class="line"></span><br><span class="line">s.bind()     </span><br><span class="line"><span class="comment"># 绑定地址（host,port）到套接字， 在AF_INET下,以元组（host,port）的形式表示地址。</span></span><br><span class="line">s.listen()     </span><br><span class="line"><span class="comment"># 开始TCP监听。backlog指定在拒绝连接之前，操作系统可以挂起的最大连接数量。该值至少为1，大部分应用程序设为5就可以了。</span></span><br><span class="line">s.accept()     </span><br><span class="line"><span class="comment"># 被动接受TCP客户端连接,(阻塞式)等待连接的到来</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">客户端</span><br><span class="line"></span><br><span class="line">s.connect()     </span><br><span class="line"><span class="comment"># 主动初始化TCP服务器连接，。一般address的格式为元组（hostname,port），如果连接出错，返回socket.error错误。</span></span><br><span class="line">s.connect_ex()     </span><br><span class="line"><span class="comment"># connect()函数的扩展版本,出错时返回出错码,而不是抛出异常</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">公共用途的函数</span><br><span class="line"></span><br><span class="line">s.recv()     </span><br><span class="line"><span class="comment"># 接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最大数据量。flag提供有关消息的其他信息，通常可以忽略。</span></span><br><span class="line">s.send()     </span><br><span class="line"><span class="comment"># 发送TCP数据，将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。</span></span><br><span class="line">s.sendall()     </span><br><span class="line"><span class="comment"># 完整发送TCP数据，完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。</span></span><br><span class="line">s.close()</span><br><span class="line"><span class="comment"># 关闭套接字</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s.recvform()     </span><br><span class="line"><span class="comment"># 接收UDP数据，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。</span></span><br><span class="line">s.sendto()     </span><br><span class="line"><span class="comment"># 发送UDP数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。</span></span><br><span class="line">s.getpeername()     </span><br><span class="line"><span class="comment"># 返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。</span></span><br><span class="line">s.getsockname()     </span><br><span class="line"><span class="comment"># 返回套接字自己的地址。通常是一个元组(ipaddr,port)</span></span><br><span class="line">s.setsockopt(level,optname,value)     </span><br><span class="line"><span class="comment"># 设置给定套接字选项的值。</span></span><br><span class="line">s.getsockopt(level,optname[.buflen])      </span><br><span class="line"><span class="comment"># 返回套接字选项的值。</span></span><br><span class="line">s.settimeout(timeout)     </span><br><span class="line"><span class="comment"># 设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如connect()）</span></span><br><span class="line">s.gettimeout()     </span><br><span class="line"><span class="comment"># 返回当前超时期的值，单位是秒，如果没有设置超时期，则返回None。</span></span><br><span class="line">s.fileno()     </span><br><span class="line"><span class="comment"># 返回套接字的文件描述符。</span></span><br><span class="line">s.setblocking(flag)     </span><br><span class="line"><span class="comment"># 如果flag为0，则将套接字设为非阻塞模式，否则将套接字设为阻塞模式（默认值）。非阻塞模式下，如果调用recv()没有发现任何数据，或send()调用无法立即发送数据，那么将引起socket.error异常。</span></span><br><span class="line">s.makefile()     </span><br><span class="line"><span class="comment"># 创建一个与该套接字相关连的文件</span></span><br></pre></td></tr></table></figure>
+    
+  </div>
+
+  
+      <div class="git"></div>
+  
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持 深水丶虫</div>
+        <ul>
+        
+          <li class="item">
+            <span>微信扫一扫</span>
+            <img src="/images/wx.png" alt="">
+          </li>
+        
+          <li class="item">
+            <span>支付宝扫一扫</span>
+            <img src="/images/zfb.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/03/26/hexo常用命令/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = '/2018/03/26/socket-selectors简单案例/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
