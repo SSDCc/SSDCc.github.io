@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Django2.0安装 | 深水丶虫</title>
+  <title>Django 安装、前期准备 | 深水丶虫</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -18,14 +18,14 @@
   <meta name="description" content="安装Django1pip install django 验证Django版本123import djangoprint (django.get_version())2.0 创建项目1django-admin startproject testpro 文件名释义 manage.py 实用的与django项目进行交互的命令行工具 testpro 项目中的实际python包 testpro/init.p">
 <meta name="keywords" content="Django">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django2.0安装">
+<meta property="og:title" content="Django 安装、前期准备">
 <meta property="og:url" content="/2018/03/27/Django2-0安装/index.html">
 <meta property="og:site_name" content="深水丶虫">
 <meta property="og:description" content="安装Django1pip install django 验证Django版本123import djangoprint (django.get_version())2.0 创建项目1django-admin startproject testpro 文件名释义 manage.py 实用的与django项目进行交互的命令行工具 testpro 项目中的实际python包 testpro/init.p">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-27T07:44:00.556Z">
+<meta property="og:updated_time" content="2018-03-27T10:51:03.196Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django2.0安装">
+<meta name="twitter:title" content="Django 安装、前期准备">
 <meta name="twitter:description" content="安装Django1pip install django 验证Django版本123import djangoprint (django.get_version())2.0 创建项目1django-admin startproject testpro 文件名释义 manage.py 实用的与django项目进行交互的命令行工具 testpro 项目中的实际python包 testpro/init.p">
 
   
@@ -163,7 +163,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Django"><span class="toc-text">安装Django</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证Django版本"><span class="toc-text">验证Django版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件名释义"><span class="toc-text">文件名释义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动开发模式下的服务器"><span class="toc-text">启动开发模式下的服务器</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Django"><span class="toc-text">安装Django</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#验证Django版本"><span class="toc-text">验证Django版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件名释义"><span class="toc-text">文件名释义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动开发模式下的服务器"><span class="toc-text">启动开发模式下的服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库设置"><span class="toc-text">数据库设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建激活的应用所需的数据表"><span class="toc-text">创建激活的应用所需的数据表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建后台管理员"><span class="toc-text">创建后台管理员</span></a></li></ol>
   </div>
 
 
@@ -171,7 +171,7 @@
 <div class="content content-post CENTER">
    <article id="post-Django2-0安装" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">Django2.0安装</h1>
+    <h1 class="post-title">Django 安装、前期准备</h1>
 
     <div class="article-meta">
       <span>
@@ -227,7 +227,20 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver 0.0.0.0:8000</span><br></pre></td></tr></table></figure>
 <ul>
-<li>就能看到django的<a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">欢迎页</a></li>
+<li>就能看到django的<a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">欢迎页</a><h1 id="数据库设置"><a href="#数据库设置" class="headerlink" title="数据库设置"></a>数据库设置</h1></li>
+</ul>
+<ol>
+<li>在settings.py可看到默认情况下，django使用的是sqlite3数据库</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.sqlite3'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: os.path.join(BASE_DIR, <span class="string">'db.sqlite3'</span>),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>我这里使用的是mysql</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'djangosql'</span>,    <span class="comment">## 数据库名称</span></span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'root'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'root'</span>,    <span class="comment">## 安装 mysql 数据库时，输入的 root 用户的密码</span></span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'127.0.0.1'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="创建激活的应用所需的数据表"><a href="#创建激活的应用所需的数据表" class="headerlink" title="创建激活的应用所需的数据表"></a>创建激活的应用所需的数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py migrate</span><br></pre></td></tr></table></figure>
+<h1 id="创建后台管理员"><a href="#创建后台管理员" class="headerlink" title="创建后台管理员"></a>创建后台管理员</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py createsuperuser</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置好之后可以在后<a href="http://127.0.0.1:8000/admin" target="_blank" rel="noopener">台管理界面</a>登陆</li>
 </ul>
 
     
