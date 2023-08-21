@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../../../plugins/com.msgbyte.sentry/src/index.tsx"],"sourcesContent":["import('./lazy');\n"],"names":[],"mappings":";;AAAA,mDAAO,iBAAA,uBAAA;;;;;;"}
