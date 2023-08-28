@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.openapi/Bot-2bcd7189.js', ['exports', 'react', '@capital/component', './index-02387e64', './index-39c66b34', './useOpenAppAction-635d454b', '@capital/common'], (function (exports, React, component, index, index$1, useOpenAppAction, common) { 'use strict';
+definePlugin('@plugins/com.msgbyte.openapi/Bot-fd349a49.js', ['exports', 'react', '@capital/component', './index-c235bf17', './index-f472a738', './useOpenAppAction-74be9afd', '@capital/common', 'styled-components'], (function (exports, React, component, index, index$1, useOpenAppAction, common, styled) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -30,4 +30,4 @@ definePlugin('@plugins/com.msgbyte.openapi/Bot-2bcd7189.js', ['exports', 'react'
   exports["default"] = Bot;
 
 }));
-//# sourceMappingURL=Bot-2bcd7189.js.map
+//# sourceMappingURL=Bot-fd349a49.js.map

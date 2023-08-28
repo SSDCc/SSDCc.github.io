@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.openapi/OAuth-cdbf273d.js', ['exports', 'react', '@capital/component', './index-02387e64', './useOpenAppAction-635d454b', './index-39c66b34', '@capital/common'], (function (exports, React, component, index, useOpenAppAction, index$1, common) { 'use strict';
+definePlugin('@plugins/com.msgbyte.openapi/OAuth-d1236498.js', ['exports', 'react', '@capital/component', './index-c235bf17', './useOpenAppAction-74be9afd', './index-f472a738', '@capital/common', 'styled-components'], (function (exports, React, component, index, useOpenAppAction, index$1, common, styled) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -34,4 +34,4 @@ definePlugin('@plugins/com.msgbyte.openapi/OAuth-cdbf273d.js', ['exports', 'reac
   exports["default"] = OAuth;
 
 }));
-//# sourceMappingURL=OAuth-cdbf273d.js.map
+//# sourceMappingURL=OAuth-d1236498.js.map

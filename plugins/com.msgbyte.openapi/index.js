@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.openapi', ['@capital/common', './index-39c66b34'], (function (common, index) { 'use strict';
+definePlugin('@plugins/com.msgbyte.openapi', ['@capital/common', './index-f472a738'], (function (common, index) { 'use strict';
 
 
 

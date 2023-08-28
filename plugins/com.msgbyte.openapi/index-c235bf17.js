@@ -1,8 +1,9 @@
-definePlugin('@plugins/com.msgbyte.openapi/index-02387e64.js', ['require', 'exports', 'react', '@capital/common', '@capital/component', './index-39c66b34'], (function (require, exports, React, common, component, index$1) { 'use strict';
+definePlugin('@plugins/com.msgbyte.openapi/index-c235bf17.js', ['require', 'exports', 'react', '@capital/common', '@capital/component', './index-f472a738', 'styled-components'], (function (require, exports, React, common, component, index$1, styled) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
   var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+  var styled__default = /*#__PURE__*/_interopDefaultLegacy(styled);
 
   var __defProp$1 = Object.defineProperty;
   var __defProps$1 = Object.defineProperties;
@@ -28,7 +29,8 @@ definePlugin('@plugins/com.msgbyte.openapi/index-02387e64.js', ['require', 'expo
   const OpenAppInfoProvider = (props) => {
     return /* @__PURE__ */ React__default["default"].createElement(OpenAppInfoContext.Provider, {
       value: __spreadProps$1(__spreadValues$1({}, props.appInfo), {
-        refresh: props.refresh
+        refresh: props.refresh,
+        onSelectApp: props.onSelectApp
       })
     }, props.children);
   };
@@ -41,16 +43,31 @@ definePlugin('@plugins/com.msgbyte.openapi/index-02387e64.js', ['require', 'expo
   var css$1 = "/* purgecss start ignore */\n\n.plugin-openapi-app-info {\n  display: flex;\n  height: 100%;\n}\n\n.plugin-openapi-app-info .plugin-openapi-app-info_body {\n  padding: 0 10px;\n}\n\n/* purgecss end ignore */\n";
   n(css$1,{});
 
-  const Profile = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Profile-785187a1'], resolve, reject); }));
-  const Bot = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Bot-2bcd7189'], resolve, reject); }));
+  const MenuTitle = styled__default["default"].div`
+  display: flex;
+
+  .iconify {
+    margin-right: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+`;
+  const Profile = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Profile-a7f50739'], resolve, reject); }));
+  const Bot = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Bot-fd349a49'], resolve, reject); }));
   const Webpage = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Webpage-e886a99c'], resolve, reject); }));
-  const OAuth = common.Loadable(() => new Promise(function (resolve, reject) { require(['./OAuth-cdbf273d'], resolve, reject); }));
+  const OAuth = common.Loadable(() => new Promise(function (resolve, reject) { require(['./OAuth-d1236498'], resolve, reject); }));
   const AppInfo = React__default["default"].memo(() => {
-    const { appName } = useOpenAppInfo();
+    const { appName, onSelectApp } = useOpenAppInfo();
+    const handleBack = common.useEvent(() => {
+      onSelectApp(null);
+    });
     const menu = React.useMemo(() => [
       {
         type: "group",
-        title: appName,
+        title: /* @__PURE__ */ React__default["default"].createElement(MenuTitle, null, /* @__PURE__ */ React__default["default"].createElement(component.Icon, {
+          icon: "mdi:arrow-left",
+          onClick: handleBack
+        }), " ", appName),
         children: [
           {
             type: "item",
@@ -223,6 +240,7 @@ definePlugin('@plugins/com.msgbyte.openapi/index-02387e64.js', ['require', 'expo
       className: "plugin-openapi-main-panel"
     }, appInfo ? /* @__PURE__ */ React__default["default"].createElement(OpenAppInfoProvider, {
       appInfo,
+      onSelectApp: handleSetSelectedApp,
       refresh
     }, /* @__PURE__ */ React__default["default"].createElement(AppInfo, null)) : /* @__PURE__ */ React__default["default"].createElement(React__default["default"].Fragment, null, /* @__PURE__ */ React__default["default"].createElement(component.Button, {
       style: { marginBottom: 10 },
@@ -249,4 +267,4 @@ definePlugin('@plugins/com.msgbyte.openapi/index-02387e64.js', ['require', 'expo
   exports.useOpenAppInfo = useOpenAppInfo;
 
 }));
-//# sourceMappingURL=index-02387e64.js.map
+//# sourceMappingURL=index-c235bf17.js.map

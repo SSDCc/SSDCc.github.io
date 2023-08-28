@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'exports', '@capital/common'], (function (require, exports, common) { 'use strict';
+definePlugin('@plugins/com.msgbyte.openapi/index-f472a738.js', ['require', 'exports', '@capital/common'], (function (require, exports, common) { 'use strict';
 
   const Translate = {
     openapi: common.localTrans({ "zh-CN": "\u5F00\u653E\u5E73\u53F0", "en-US": "Open Api" }),
@@ -17,6 +17,10 @@ definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'expo
     operation: common.localTrans({
       "zh-CN": "\u64CD\u4F5C",
       "en-US": "Operation"
+    }),
+    delete: common.localTrans({
+      "zh-CN": "\u5220\u9664",
+      "en-US": "Delete"
     }),
     enter: common.localTrans({
       "zh-CN": "\u8FDB\u5165",
@@ -43,6 +47,14 @@ definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'expo
         "zh-CN": "\u57FA\u7840\u4FE1\u606F",
         "en-US": "Basic Info"
       }),
+      appName: common.localTrans({
+        "zh-CN": "\u5E94\u7528\u540D\u79F0",
+        "en-US": "App Name"
+      }),
+      appDesc: common.localTrans({
+        "zh-CN": "\u5E94\u7528\u63CF\u8FF0",
+        "en-US": "App Description"
+      }),
       bot: common.localTrans({
         "zh-CN": "\u673A\u5668\u4EBA",
         "en-US": "Bot"
@@ -58,14 +70,6 @@ definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'expo
       appcret: common.localTrans({
         "zh-CN": "\u5E94\u7528\u51ED\u8BC1",
         "en-US": "Application Credentials"
-      }),
-      appName: common.localTrans({
-        "zh-CN": "\u5E94\u7528\u540D\u79F0",
-        "en-US": "App Name"
-      }),
-      appDesc: common.localTrans({
-        "zh-CN": "\u5E94\u7528\u63CF\u8FF0",
-        "en-US": "App Desc"
       })
     },
     bot: {
@@ -94,7 +98,7 @@ definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'expo
     }
   };
 
-  const MainPanel = common.Loadable(() => new Promise(function (resolve, reject) { require(['./index-02387e64'], resolve, reject); }).then(function (n) { return n.index; }));
+  const MainPanel = common.Loadable(() => new Promise(function (resolve, reject) { require(['./index-c235bf17'], resolve, reject); }).then(function (n) { return n.index; }));
   common.regCustomPanel({
     position: "setting",
     icon: "",
@@ -111,4 +115,4 @@ definePlugin('@plugins/com.msgbyte.openapi/index-39c66b34.js', ['require', 'expo
   exports.Translate = Translate;
 
 }));
-//# sourceMappingURL=index-39c66b34.js.map
+//# sourceMappingURL=index-f472a738.js.map
