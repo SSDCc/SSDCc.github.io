@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktailchat_web=self.webpackChunktailchat_web||[]).push([[151],{98151:(i,n,a)=>{a.r(n),a.d(n,{MarkdownEditor:()=>l});var t=a(52983),o=a(27376),u=a(58789);const e=[(0,u.Z)()],l=t.memo(d=>{var s;return t.createElement(o.M,{plugins:e,value:(s=d.value)!=null?s:"",onChange:d.onChange})});l.displayName="MarkdownEditor"}}]);

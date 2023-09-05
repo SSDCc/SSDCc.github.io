@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.bbcode/Highlight-3dc5c156.js', ['exports', 'react', './render-f8e47d8f', './parser-34594393', '@capital/common', '@capital/component', 'styled-components'], (function (exports, React, render, parser, common, component, styled) { 'use strict';
+definePlugin('@plugins/com.msgbyte.bbcode/Highlight-d04df1a6.js', ['exports', 'react', './render-f3884d05', './parser-34594393', '@capital/common', '@capital/component', 'styled-components'], (function (exports, React, render, parser, common, component, styled) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -45900,4 +45900,4 @@ definePlugin('@plugins/com.msgbyte.bbcode/Highlight-3dc5c156.js', ['exports', 'r
   exports["default"] = Highlight;
 
 }));
-//# sourceMappingURL=Highlight-3dc5c156.js.map
+//# sourceMappingURL=Highlight-d04df1a6.js.map

@@ -5,8 +5,8 @@ definePlugin('@plugins/com.msgbyte.bbcode', ['require', 'react', '@capital/commo
   var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 
   const PLUGIN_ID = "com.msgbyte.bbcode";
-  new Promise(function (resolve, reject) { require(['./render-f8e47d8f'], resolve, reject); }).then(function (n) { return n.render; });
-  const BBCode = common.Loadable(() => new Promise(function (resolve, reject) { require(['./render-f8e47d8f'], resolve, reject); }).then(function (n) { return n.render; }), {
+  new Promise(function (resolve, reject) { require(['./render-f3884d05'], resolve, reject); }).then(function (n) { return n.render; });
+  const BBCode = common.Loadable(() => new Promise(function (resolve, reject) { require(['./render-f3884d05'], resolve, reject); }).then(function (n) { return n.render; }), {
     componentName: `${PLUGIN_ID}:renderComponent`,
     fallback: null
   });

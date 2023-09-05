@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.bbcode/render-f8e47d8f.js', ['require', 'exports', 'react', './parser-34594393', '@capital/common', '@capital/component', 'styled-components'], (function (require, exports, React, parser, common, component, styled) { 'use strict';
+definePlugin('@plugins/com.msgbyte.bbcode/render-f3884d05.js', ['require', 'exports', 'react', './parser-34594393', '@capital/common', '@capital/component', 'styled-components'], (function (require, exports, React, parser, common, component, styled) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -1565,7 +1565,7 @@ definePlugin('@plugins/com.msgbyte.bbcode/render-f8e47d8f.js', ['require', 'expo
 	});
 	BBCode.displayName = "BBCode";
 
-	const Highlight = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Highlight-3dc5c156'], resolve, reject); }));
+	const Highlight = common.Loadable(() => new Promise(function (resolve, reject) { require(['./Highlight-d04df1a6'], resolve, reject); }));
 	const CodeTag = React__default["default"].memo((props) => {
 	  var _a;
 	  const { node } = props;
@@ -1606,6 +1606,12 @@ definePlugin('@plugins/com.msgbyte.bbcode/render-f8e47d8f.js', ['require', 'expo
 	  const width = Number(attr.width);
 	  if (!(height > 0 && width > 0)) {
 	    return {};
+	  }
+	  if (height <= MAX_HEIGHT && width <= MAX_WIDTH) {
+	    return {
+	      height,
+	      width
+	    };
 	  }
 	  const ratio = Math.max(height / MAX_HEIGHT, width / MAX_WIDTH);
 	  return {
@@ -1778,4 +1784,4 @@ definePlugin('@plugins/com.msgbyte.bbcode/render-f8e47d8f.js', ['require', 'expo
 	exports.render = render;
 
 }));
-//# sourceMappingURL=render-f8e47d8f.js.map
+//# sourceMappingURL=render-f3884d05.js.map
