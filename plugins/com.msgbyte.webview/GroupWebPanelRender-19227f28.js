@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.webview/GroupWebPanelRender-ac2015c4.js', ['exports', 'react', './index-c5bf8582', '@capital/component', '@capital/common'], (function (exports, React, index, component, common) { 'use strict';
+definePlugin('@plugins/com.msgbyte.webview/GroupWebPanelRender-19227f28.js', ['exports', 'react', './index-650ad268', '@capital/component', '@capital/common'], (function (exports, React, index, component, common) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -1572,4 +1572,4 @@ definePlugin('@plugins/com.msgbyte.webview/GroupWebPanelRender-ac2015c4.js', ['e
 	exports["default"] = GroupWebPanelRender;
 
 }));
-//# sourceMappingURL=GroupWebPanelRender-ac2015c4.js.map
+//# sourceMappingURL=GroupWebPanelRender-19227f28.js.map

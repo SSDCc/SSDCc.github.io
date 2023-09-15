@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.webview/index-c5bf8582.js', ['require', 'exports', '@capital/common'], (function (require, exports, common) { 'use strict';
+definePlugin('@plugins/com.msgbyte.webview/index-650ad268.js', ['require', 'exports', '@capital/common'], (function (require, exports, common) { 'use strict';
 
   const Translate = {
     webpanel: common.localTrans({ "zh-CN": "\u7F51\u9875\u9762\u677F", "en-US": "Webview Panel" }),
@@ -40,7 +40,7 @@ definePlugin('@plugins/com.msgbyte.webview/index-c5bf8582.js', ['require', 'expo
         label: Translate.website
       }
     ],
-    render: common.Loadable(() => new Promise(function (resolve, reject) { require(['./GroupWebPanelRender-ac2015c4'], resolve, reject); })),
+    render: common.Loadable(() => new Promise(function (resolve, reject) { require(['./GroupWebPanelRender-19227f28'], resolve, reject); })),
     menus: [
       {
         name: "openInNewWindow",
@@ -59,7 +59,7 @@ definePlugin('@plugins/com.msgbyte.webview/index-c5bf8582.js', ['require', 'expo
     name: `${PLUGIN_NAME}/customwebpanel`,
     label: Translate.customwebpanel,
     provider: PLUGIN_NAME,
-    render: common.Loadable(() => new Promise(function (resolve, reject) { require(['./GroupCustomWebPanelRender-eae684c0'], resolve, reject); }), {
+    render: common.Loadable(() => new Promise(function (resolve, reject) { require(['./GroupCustomWebPanelRender-b8284750'], resolve, reject); }), {
       componentName: `${PLUGIN_NAME}:GroupCustomWebPanelRender`
     })
   });
@@ -67,4 +67,4 @@ definePlugin('@plugins/com.msgbyte.webview/index-c5bf8582.js', ['require', 'expo
   exports.Translate = Translate;
 
 }));
-//# sourceMappingURL=index-c5bf8582.js.map
+//# sourceMappingURL=index-650ad268.js.map

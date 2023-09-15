@@ -1,4 +1,4 @@
-definePlugin('@plugins/com.msgbyte.webview/GroupCustomWebPanelRender-eae684c0.js', ['exports', 'react', './index-c5bf8582', '@capital/common', '@capital/component', 'styled-components'], (function (exports, React, index, common, component, styled) { 'use strict';
+definePlugin('@plugins/com.msgbyte.webview/GroupCustomWebPanelRender-b8284750.js', ['exports', 'react', './index-650ad268', '@capital/common', '@capital/component', 'styled-components'], (function (exports, React, index, common, component, styled) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -1703,6 +1703,25 @@ definePlugin('@plugins/com.msgbyte.webview/GroupCustomWebPanelRender-eae684c0.js
   }
   }(lib$1, lib$1.exports));
 
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const EditModalContent = styled__default["default"].div`
   padding: 10px;
   width: 80vw;
@@ -1723,8 +1742,9 @@ definePlugin('@plugins/com.msgbyte.webview/GroupCustomWebPanelRender-eae684c0.js
 `;
   const xss = new lib$1.exports.FilterXSS({
     css: false,
+    whiteList: __spreadProps(__spreadValues({}, lib$1.exports.getDefaultWhiteList()), { iframe: ["src", "style", "class"] }),
     onIgnoreTag: function(tag, html, options) {
-      if (["html", "body", "head", "meta", "style", "iframe", "div"].includes(tag)) {
+      if (["html", "body", "head", "meta", "style", "div"].includes(tag)) {
         return html;
       }
     }
@@ -1797,4 +1817,4 @@ definePlugin('@plugins/com.msgbyte.webview/GroupCustomWebPanelRender-eae684c0.js
   exports["default"] = GroupCustomWebPanel;
 
 }));
-//# sourceMappingURL=GroupCustomWebPanelRender-eae684c0.js.map
+//# sourceMappingURL=GroupCustomWebPanelRender-b8284750.js.map
