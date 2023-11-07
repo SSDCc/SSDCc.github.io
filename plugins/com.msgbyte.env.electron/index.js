@@ -40,6 +40,18 @@ definePlugin('@plugins/com.msgbyte.env.electron', ['require', '@capital/common',
     isLatest: common.localTrans({
       "zh-CN": "\u5DF2\u7ECF\u662F\u6700\u65B0\u7248",
       "en-US": "Already the latest version"
+    }),
+    nativeWebviewRender: common.localTrans({
+      "zh-CN": "\u542F\u7528\u539F\u751F\u6D4F\u89C8\u5668\u5185\u6838\u6E32\u67D3",
+      "en-US": "Use Native Webview Render"
+    }),
+    nativeWebviewRenderDesc: common.localTrans({
+      "zh-CN": "\u89E3\u9664\u9ED8\u8BA4\u7F51\u9875\u8BBF\u95EE\u9650\u5236\uFF0C\u5141\u8BB8\u5728Tailchat\u5D4C\u5165\u4EFB\u610F\u7F51\u7AD9\u5185\u5BB9",
+      "en-US": "Lift default web page access restrictions and allow any website content to be embedded in Tailchat"
+    }),
+    nativeWebviewRenderHideTip: common.localTrans({
+      "zh-CN": "\u7EC4\u4EF6\u88AB\u906E\u6321\uFF0C\u6682\u65F6\u9690\u85CF\u7F51\u9875\u89C6\u56FE",
+      "en-US": "The component is obscured, temporarily hiding the web view"
     })
   };
 
@@ -138,7 +150,95 @@ definePlugin('@plugins/com.msgbyte.env.electron', ['require', '@capital/common',
   });
   DeviceInfoPanel.displayName = "DeviceInfoPanel";
 
+  const ElectronWebview = React__default["default"].memo((props) => {
+    const containerRef = React.useRef(null);
+    const [isVisiable, setIsVisiable] = React.useState(true);
+    const key = props.src;
+    const url = props.src;
+    React.useEffect(() => {
+      if (!containerRef.current) {
+        return;
+      }
+      const rect = containerRef.current.getBoundingClientRect();
+      window.electron.ipcRenderer.sendMessage("$mount-webview", {
+        key,
+        url,
+        rect: {
+          x: rect.x,
+          y: rect.y,
+          width: rect.width,
+          height: rect.height
+        }
+      });
+      return () => {
+        window.electron.ipcRenderer.sendMessage("$unmount-webview", {
+          key
+        });
+      };
+    }, [key, url]);
+    React.useEffect(() => {
+      if (!containerRef.current) {
+        return;
+      }
+      const intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isVisible === true) {
+            window.electron.ipcRenderer.sendMessage("$show-webview", {
+              key
+            });
+          } else {
+            window.electron.ipcRenderer.sendMessage("$hide-webview", {
+              key
+            });
+          }
+          setIsVisiable(entry.isVisible);
+        });
+      }, {
+        trackVisibility: true,
+        delay: 200
+      });
+      const resizeObserver = new ResizeObserver((entries) => {
+        entries.forEach((entry) => {
+          const { target } = entry;
+          if (!target.parentElement) {
+            return;
+          }
+          const rect = target.getBoundingClientRect();
+          window.electron.ipcRenderer.sendMessage("$update-webview-rect", {
+            key,
+            rect: {
+              x: rect.x,
+              y: rect.y,
+              width: rect.width,
+              height: rect.height
+            }
+          });
+        });
+      });
+      intersectionObserver.observe(containerRef.current);
+      resizeObserver.observe(containerRef.current);
+      return () => {
+        if (containerRef.current) {
+          intersectionObserver.unobserve(containerRef.current);
+          resizeObserver.unobserve(containerRef.current);
+        }
+      };
+    }, [key]);
+    return /* @__PURE__ */ React__default["default"].createElement("div", {
+      ref: containerRef,
+      className: props.className,
+      style: { width: "100%", height: "100%" }
+    }, isVisiable === false && /* @__PURE__ */ React__default["default"].createElement("span", null, Translate.nativeWebviewRenderHideTip));
+  });
+  ElectronWebview.displayName = "ElectronWebview";
+
+  var e=[],t=[];function n(n,r){if(n&&"undefined"!=typeof document){var a,s=!0===r.prepend?"prepend":"append",d=!0===r.singleTag,i="string"==typeof r.container?document.querySelector(r.container):document.getElementsByTagName("head")[0];if(d){var u=e.indexOf(i);-1===u&&(u=e.push(i)-1,t[u]={}),a=t[u]&&t[u][s]?t[u][s]:t[u][s]=c();}else a=c();65279===n.charCodeAt(0)&&(n=n.substring(1)),a.styleSheet?a.styleSheet.cssText+=n:a.appendChild(document.createTextNode(n));}function c(){var e=document.createElement("style");if(e.setAttribute("type","text/css"),r.attributes)for(var t=Object.keys(r.attributes),n=0;n<t.length;n++)e.setAttribute(t[n],r.attributes[t[n]]);var a="prepend"===s?"afterbegin":"beforeend";return i.insertAdjacentElement(a,e),e}}
+
+  var css = "/* purgecss start ignore */\n\n.ant-dropdown-menu {\n  box-shadow: none; /* avoid group detail dropdown's shadow will make dom invisiable */\n}\n\n/* purgecss end ignore */\r\n";
+  n(css,{});
+
   const PLUGIN_NAME = "Electron Support";
+  const WEBVIEW_CONFIG = "electron:nativeWebviewRender";
   console.log(`Plugin ${PLUGIN_NAME} is loaded`);
   common.regCustomPanel({
     position: "setting",
@@ -159,10 +259,46 @@ definePlugin('@plugins/com.msgbyte.env.electron', ['require', '@capital/common',
       });
     }
   });
+  common.regPluginSettings({
+    position: "system",
+    type: "boolean",
+    name: WEBVIEW_CONFIG,
+    label: Translate.nativeWebviewRender,
+    desc: Translate.nativeWebviewRenderDesc
+  });
   forwardSharedEvent("receiveUnmutedMessage");
   setTimeout(() => {
     checkUpdate();
   }, 1e3);
+  let changedWithElectron = false;
+  const checkSettingConfig = (settings) => {
+    if (settings[WEBVIEW_CONFIG] === true) {
+      common.setWebviewKernel(() => ElectronWebview);
+      changedWithElectron = true;
+    } else if (changedWithElectron === true) {
+      common.resetWebviewKernel();
+    }
+  };
+  common.sharedEvent.on("loginSuccess", () => {
+    common.getCachedUserSettings().then((settings) => {
+      checkSettingConfig(settings);
+    });
+  });
+  common.sharedEvent.on("userSettingsUpdate", (settings) => {
+    checkSettingConfig(settings);
+  });
+  navigator.mediaDevices.getDisplayMedia = async (options) => {
+    const source = await window.electron.ipcRenderer.getDesktopCapturerSource();
+    const stream = await window.navigator.mediaDevices.getUserMedia({
+      video: {
+        mandatory: {
+          chromeMediaSource: "desktop",
+          chromeMediaSourceId: source.id
+        }
+      }
+    });
+    return stream;
+  };
 
 }));
 //# sourceMappingURL=index.js.map

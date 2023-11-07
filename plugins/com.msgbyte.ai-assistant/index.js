@@ -35,6 +35,10 @@ definePlugin('@plugins/com.msgbyte.ai-assistant', ['@capital/common', '@capital/
       "zh-CN": "\u7FFB\u8BD1\u8F93\u5165\u5185\u5BB9",
       "en-US": "Translate Input"
     }),
+    inputTextShowMoreActionTip: common.localTrans({
+      "zh-CN": "\u6216\u8005\u8F93\u5165\u5185\u5BB9\u540E\u5C55\u793A\u66F4\u591A\u64CD\u4F5C",
+      "en-US": "Or input message then show more actions"
+    }),
     usage: common.localTrans({
       "zh-CN": "\u7528\u65F6",
       "en-US": "Usage"
@@ -105,6 +109,10 @@ definePlugin('@plugins/com.msgbyte.ai-assistant', ['@capital/common', '@capital/
     background-color: rgba(0, 0, 0, 0.2);
   }
 `;
+  const ActionTip = styled__default["default"].div`
+  font-size: 12px;
+  opacity: 0.6;
+`;
   const AssistantPopover = React__default["default"].memo((props) => {
     const { messages } = common.useConverseMessageContext();
     const { message, setMessage } = component.useChatInputActionContext();
@@ -128,7 +136,15 @@ definePlugin('@plugins/com.msgbyte.ai-assistant', ['@capital/common', '@capital/
       }
     }, Translate.apply))) : /* @__PURE__ */ React__default["default"].createElement("div", null, /* @__PURE__ */ React__default["default"].createElement("div", null, Translate.serviceBusy), /* @__PURE__ */ React__default["default"].createElement(component.Tag, {
       color: "red"
-    }, Translate.callError)), /* @__PURE__ */ React__default["default"].createElement(component.Divider, null))), /* @__PURE__ */ React__default["default"].createElement(Tip, null, Translate.helpMeTo), typeof message === "string" && message.length > 0 && /* @__PURE__ */ React__default["default"].createElement(React__default["default"].Fragment, null, /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
+    }, Translate.callError)), /* @__PURE__ */ React__default["default"].createElement(component.Divider, null))), /* @__PURE__ */ React__default["default"].createElement(Tip, null, Translate.helpMeTo), /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
+      onClick: async () => {
+        const plainMessages = (await Promise.all([...messages].filter((item) => !item.hasRecall).slice(messages.length - 30, messages.length).map(async (item) => {
+          var _a;
+          return `${(await common.getCachedUserInfo(item.author)).nickname}: ${common.getMessageTextDecorators().serialize((_a = item.content) != null ? _a : "")}`;
+        }))).join("\n");
+        handleCallAI(summaryMessagesPrompt + "\n" + plainMessages);
+      }
+    }, Translate.summaryMessages), typeof message === "string" && message.length > 0 ? /* @__PURE__ */ React__default["default"].createElement(React__default["default"].Fragment, null, /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
       onClick: () => handleCallAI(improveTextPrompt + message)
     }, Translate.improveText), /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
       onClick: () => handleCallAI(shorterTextPrompt + message)
@@ -136,15 +152,7 @@ definePlugin('@plugins/com.msgbyte.ai-assistant', ['@capital/common', '@capital/
       onClick: () => handleCallAI(longerTextPrompt + message)
     }, Translate.makeLonger), /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
       onClick: () => handleCallAI(translateTextPrompt + message)
-    }, Translate.translateInputText)), /* @__PURE__ */ React__default["default"].createElement(ActionButton, {
-      onClick: async () => {
-        const plainMessages = (await Promise.all([...messages].filter((item) => !item.hasRecall).slice(messages.length - 30, messages.length).map(async (item) => {
-          var _a;
-          return `${(await common.getCachedUserInfo(item.author)).nickname}: ${common.getMessageTextDecorators().serialize((_a = item.content) != null ? _a : "")}`;
-        }))).join("\n");
-        handleCallAI(summaryMessagesPrompt + plainMessages);
-      }
-    }, Translate.summaryMessages));
+    }, Translate.translateInputText)) : /* @__PURE__ */ React__default["default"].createElement(ActionTip, null, Translate.inputTextShowMoreActionTip));
   });
   AssistantPopover.displayName = "AssistantPopover";
 
